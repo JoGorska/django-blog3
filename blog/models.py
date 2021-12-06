@@ -7,9 +7,6 @@ STATUS = ((0, "Draft"), (1, "Published"))
 
 
 class Post(models.Model):
-    """
-    sets the table headers for Post
-    """
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(
@@ -24,29 +21,17 @@ class Post(models.Model):
     likes = models.ManyToManyField(
         User, related_name='blogpost_like', blank=True)
 
-class Meta:
-    """
-    sets the order in which the blog posts are displayed
-    """
-    ordering = ["-created_on"]
+    class Meta:
+        ordering = ["-created_on"]
 
-def __str__(self):
-    """
-    makes the new items in the database display under the title name
-    this returns string repersentation of an object
-    """
-    return self.title
+    def __str__(self):
+        return self.title
 
-def number_of_likes(self):
-    """
-    returns the total number of likes on a post
-    """
-    return self.likes.count()
+    def number_of_likes(self):
+        return self.likes.count()
+
 
 class Comment(models.Model):
-    """
-    sets the table for comments
-    """
     post = models.ForeignKey(Post, on_delete=models.CASCADE,
                              related_name="comments")
     name = models.CharField(max_length=80)
@@ -55,11 +40,8 @@ class Comment(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
 
-class Meta:
-    """
-    ascending order, the olders are listed first
-    """
-    ordering = ["created_on"]
+    class Meta:
+        ordering = ["created_on"]
 
-def __str__(self):
-    return f"Comment {self.body} by {self.name}"
+    def __str__(self):
+        return f"Comment {self.body} by {self.name}"
